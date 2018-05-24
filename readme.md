@@ -10,7 +10,7 @@ Een soort AR Fruit Ninja, waar je jezelf ziet en met je handen het fruit dat doo
 ## Portfolio
 Zet hier de links neer naar jullie documentatie.
 
-* [Onderzoek](https://github.com/MeesMD/ProjectGamelab)
+* [Onderzoek]()
 * [Ontwerp]()
 * [Testrapportage]()
 * [Presentatie]()
