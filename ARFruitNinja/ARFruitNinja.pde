@@ -98,7 +98,7 @@ void drawBall(){
 
 void checkCollision(){
   if(dist(ballX,ballY, playerHandX, playerHandY) <= 25){
-   //background(255,0,0); 
-   gameOverScreen();
+   background(255,0,0); 
+   //gameOverScreen();
   }
 }
