@@ -1,58 +1,55 @@
 import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
+
 /********* VARIABLES *********/
 
-int gameScreen = 0;
+Fruit fruit = new Fruit();
+Timer timer = new Timer();
+
+Fruit[] fruitArray = new Fruit[0];
+
+PImage background;
 color circleColor = color(0);
-int ballX, ballY;
+int gameScreen = 0;
 int playerHandX, playerHandY;
-int ballSize = 40;
 int handSize = 20;
-
 Kinect kinect2;
-
-float minThresh = 480;
-float maxThresh = 830;
 PImage img;
-
 /********* SETUP BLOCK *********/
 
-void setup() {
+void setup() 
+{ 
+  frameRate(90);
+  size(1280,800,P3D);
+  //fullScreen();
+  noStroke();
+  smooth();
   
- // size(1600, 900);
-  
-  /*
-  ballX = width/2;
-  ballY = height/2;
-  */
-  
-  size(640, 480, P3D );
-  
-    kinect2 = new Kinect(this);
+  background = loadImage("test.jpg");
+  kinect2 = new Kinect(this);
   kinect2.initDepth();
   img = createImage(kinect2.width, kinect2.height, RGB);
   
-}
-
+} 
 
 /********* DRAW BLOCK *********/
 
-void draw() {
-  /*
-  if (gameScreen == 0) {
+void draw() 
+{
+  if (gameScreen == 0) 
+  {
     initScreen();
-  } else if (gameScreen == 1) {
+  } 
+  else if (gameScreen == 1) 
+  {
     gameScreen();
-  } else if (gameScreen == 2) {
+  } 
+  else if (gameScreen == 2) 
+  {
     gameOverScreen();
   }
-  */
-  
-  background(0);
-  
   PImage img = kinect2.getDepthImage();
-  //image(img,0,0);
-
+  
   int skip = 20;
   for(int x = 0; x < img.width; x+=skip){
     for(int y = 0; y < img.height; y+=skip){
@@ -66,29 +63,34 @@ void draw() {
     rect(0,0,skip/2,skip/2 );
     popMatrix();
     }
-    
-  }
+  } 
+}
 
- 
 
 /********* SCREEN CONTENTS *********/
-/*
-void initScreen() {
+
+void initScreen() 
+{
   background(0);
   textAlign(CENTER);
   text("Click to start", width/2, height/2);
 }
 
 
-void gameScreen() {
-  background(255);
+void gameScreen() 
+{
+  background(background);
+  spawnNewFruit();
+  timer.timeDec();
   drawHandCircle();
-  drawBall();
-  checkCollision();
+  
+  fruit.update();
+  
 }
 
 
-void gameOverScreen() {
+void gameOverScreen() 
+{
   background(0);
   textAlign(CENTER);
   fill(255);
@@ -100,45 +102,49 @@ void gameOverScreen() {
 
 
 /********* INPUTS *********/
-/*
-public void mousePressed() {
-  if (gameScreen == 0) {
+
+public void mousePressed() 
+{
+  if (gameScreen == 0) 
+  {
     startGame();
   }
     
-  if (gameScreen == 2){
-    restart();
+  if (gameScreen == 2)
+  {
+    gameOver();
   }
 }
 
 
 /********* OTHER FUNCTIONS *********/
-/*
-void startGame() {
+
+void startGame() 
+{
   gameScreen = 1;
 }
 
-void restart(){
-  gameScreen = 0;
+void gameOver()
+{
+  gameScreen = 2;
 }
 
-void drawHandCircle(){
+void drawHandCircle()
+{
   playerHandX = mouseX;
   playerHandY = mouseY;
-  fill(circleColor);
+  fill(255,0,255);
   rectMode(CENTER);
   ellipse(playerHandX, playerHandY, handSize, handSize);
 }
 
-void drawBall(){
-  fill(circleColor);
-  rectMode(CENTER);
-  ellipse(ballX, ballY, ballSize, ballSize);
-}
-
-void checkCollision(){
-  if(dist(ballX,ballY, playerHandX, playerHandY) <= 25){
-   background(255,0,0); 
-   //gameOverScreen();
-  }
-}
+void spawnNewFruit()
+{
+   timer.timeDec();
+   
+   if(timer.timeEnd == true)
+   {
+     println("YOINK"); 
+     fruit = new Fruit();
+   }
+}     
