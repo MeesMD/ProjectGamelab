@@ -1,3 +1,5 @@
+import org.openkinect.freenect.*;
+import org.openkinect.processing.*;
 /********* VARIABLES *********/
 
 int gameScreen = 0;
@@ -7,13 +9,28 @@ int playerHandX, playerHandY;
 int ballSize = 40;
 int handSize = 20;
 
+Kinect kinect2;
+
+float minThresh = 480;
+float maxThresh = 830;
+PImage img;
+
 /********* SETUP BLOCK *********/
 
 void setup() {
-  size(1600, 900);
   
+ // size(1600, 900);
+  
+  /*
   ballX = width/2;
   ballY = height/2;
+  */
+  
+  size(640, 480, P3D );
+  
+    kinect2 = new Kinect(this);
+  kinect2.initDepth();
+  img = createImage(kinect2.width, kinect2.height, RGB);
   
 }
 
@@ -21,6 +38,7 @@ void setup() {
 /********* DRAW BLOCK *********/
 
 void draw() {
+  /*
   if (gameScreen == 0) {
     initScreen();
   } else if (gameScreen == 1) {
@@ -28,11 +46,33 @@ void draw() {
   } else if (gameScreen == 2) {
     gameOverScreen();
   }
-}
+  */
+  
+  background(0);
+  
+  PImage img = kinect2.getDepthImage();
+  //image(img,0,0);
 
+  int skip = 20;
+  for(int x = 0; x < img.width; x+=skip){
+    for(int y = 0; y < img.height; y+=skip){
+    int index = x + y * img.width;
+    float b = brightness(img.pixels[index]);
+    float z = map(b,0,255,250,-250);
+    //float z = b;
+    fill(255-b);
+    pushMatrix();
+    translate(x,y,z);
+    rect(0,0,skip/2,skip/2 );
+    popMatrix();
+    }
+    
+  }
+
+ 
 
 /********* SCREEN CONTENTS *********/
-
+/*
 void initScreen() {
   background(0);
   textAlign(CENTER);
@@ -60,7 +100,7 @@ void gameOverScreen() {
 
 
 /********* INPUTS *********/
-
+/*
 public void mousePressed() {
   if (gameScreen == 0) {
     startGame();
@@ -73,7 +113,7 @@ public void mousePressed() {
 
 
 /********* OTHER FUNCTIONS *********/
-
+/*
 void startGame() {
   gameScreen = 1;
 }
