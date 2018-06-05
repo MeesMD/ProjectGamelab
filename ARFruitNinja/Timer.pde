@@ -1,15 +1,20 @@
 class Timer {
- float startTimer = 2000; 
+ float interval = 2000; 
  float lasttimecheck = millis();
+ boolean timeEnd = false;
  
  void timeDec() 
  {
-   if(millis() > lasttimecheck + startTimer) 
+   if(millis() > lasttimecheck + interval) 
    {
      lasttimecheck = millis();
+     timeEnd = true;
+   }
+   else 
+   {
+     timeEnd = false;
    }
  }
  
- 
- 
+   
 }

@@ -15,12 +15,13 @@ class Fruit {
     shootUp();
   }
   
-  void update () {
+  void update () 
+  {
     applyGravity();
     destroy();
+    checkCollision();
     draw();
   }
-  
   
   void draw() 
   {
@@ -32,6 +33,14 @@ class Fruit {
     }
   }
   
+  void checkCollision()
+  {
+    if(dist(fruitX, fruitY, playerHandX, playerHandY) <= 50)
+    {
+      background(255,0,0); 
+    }
+  }
+
   void applyGravity()
   {
       ballSpdVert += gravity;

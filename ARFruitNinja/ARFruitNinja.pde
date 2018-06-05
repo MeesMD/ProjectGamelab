@@ -1,25 +1,29 @@
 /********* VARIABLES *********/
+
 Fruit fruit = new Fruit();
 Timer timer = new Timer();
 
-int gameScreen = 0;
+Fruit[] fruitArray = new Fruit[0];
+
+PImage background;
 color circleColor = color(0);
+int gameScreen = 0;
 int playerHandX, playerHandY;
 int handSize = 20;
 
 /********* SETUP BLOCK *********/
 
 void setup() 
-{
+{ 
   frameRate(90);
-  size(1200,700);
+  size(1280,800);
   //fullScreen();
   noStroke();
   smooth();
   
-  fruit = new Fruit();
-}
-
+  background = loadImage("test.jpg");
+  
+} 
 
 /********* DRAW BLOCK *********/
 
@@ -52,11 +56,13 @@ void initScreen()
 
 void gameScreen() 
 {
-  background(255);
-  drawHandCircle();
-  //checkCollision();
+  background(background);
+  spawnNewFruit();
   timer.timeDec();
+  drawHandCircle();
+  
   fruit.update();
+  
 }
 
 
@@ -104,15 +110,18 @@ void drawHandCircle()
 {
   playerHandX = mouseX;
   playerHandY = mouseY;
-  fill(circleColor);
+  fill(255,0,255);
   rectMode(CENTER);
   ellipse(playerHandX, playerHandY, handSize, handSize);
 }
 
-void checkCollision()
+void spawnNewFruit()
 {
-  if(dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) <= 25){
-    background(255,0,0); 
-    }
-}
-  
+   timer.timeDec();
+   
+   if(timer.timeEnd == true)
+   {
+     println("YOINK"); 
+     fruit = new Fruit();
+   }
+}     
