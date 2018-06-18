@@ -1,12 +1,19 @@
 import org.openkinect.freenect.*;
+<<<<<<< HEAD
 import org.openkinect.freenect2.*;
 import org.openkinect.processing.*;
 import org.openkinect.tests.*;
+=======
+import org.openkinect.processing.*;
+
+/********* VARIABLES *********/
+>>>>>>> 5e31d0a2c904ef552e2b402c8da3fa8e3a9cd066
 
 import KinectPV2.*;
 
 Kinect kinect;
 
+<<<<<<< HEAD
 // Depth image
 PImage depthImg;
 
@@ -17,13 +24,94 @@ float maxDepth = 2493;
 
 // What is the kinect's angle
 float angle;
+=======
+PImage background;
+color circleColor = color(0);
+int gameScreen = 0;
+int playerHandX, playerHandY;
+int handSize = 20;
+Kinect kinect2;
+PImage img;
+/********* SETUP BLOCK *********/
+
+void setup() 
+{ 
+  frameRate(90);
+  size(1280,800,P3D);
+  //fullScreen();
+  noStroke();
+  smooth();
+  
+  background = loadImage("test.jpg");
+  kinect2 = new Kinect(this);
+  kinect2.initDepth();
+  img = createImage(kinect2.width, kinect2.height, RGB);
+  
+} 
+>>>>>>> 5e31d0a2c904ef552e2b402c8da3fa8e3a9cd066
 
 void setup() {
   size(1280, 480);
 
+<<<<<<< HEAD
   kinect = new Kinect(this);
   kinect.initDepth();
   angle = kinect.getTilt();
+=======
+void draw() 
+{
+  if (gameScreen == 0) 
+  {
+    initScreen();
+  } 
+  else if (gameScreen == 1) 
+  {
+    gameScreen();
+  } 
+  else if (gameScreen == 2) 
+  {
+    gameOverScreen();
+  }
+  PImage img = kinect2.getDepthImage();
+  
+  int skip = 20;
+  for(int x = 0; x < img.width; x+=skip){
+    for(int y = 0; y < img.height; y+=skip){
+    int index = x + y * img.width;
+    float b = brightness(img.pixels[index]);
+    float z = map(b,0,255,250,-250);
+    //float z = b;
+    fill(255-b);
+    pushMatrix();
+    translate(x,y,z);
+    rect(0,0,skip/2,skip/2 );
+    popMatrix();
+    }
+  } 
+}
+
+
+/********* SCREEN CONTENTS *********/
+
+void initScreen() 
+{
+  background(0);
+  textAlign(CENTER);
+  text("Click to start", width/2, height/2);
+}
+
+
+void gameScreen() 
+{
+  background(background);
+  spawnNewFruit();
+  timer.timeDec();
+  drawHandCircle();
+  
+  fruit.update();
+  
+}
+>>>>>>> 5e31d0a2c904ef552e2b402c8da3fa8e3a9cd066
 
   // Blank image
   depthImg = new PImage(kinect.width, kinect.height);
