@@ -1,62 +1,60 @@
 class Fruit {
+  Score score;
+  PShape Appel;
   int fruitSize = 100;
-  
   float fruitX, fruitY;
   float gravity = 0.1;
   float ballSpdVert = 0;
-  float shootSpd = random(8, 12);
+  float shootSpd = random(10, 12);
   boolean drawFruit = true;
 
-  Fruit() 
+
+  Fruit(PShape shape) 
   {
     fruitX = random(fruitSize/2, width - fruitSize/2);
     fruitY = height;
-    
+    Appel = shape;
+
     shootUp();
   }
-  
+
   void update () 
   {
+    show();
     applyGravity();
     destroy();
-    checkCollision();
-    draw();
   }
-  
-  void draw() 
+
+  void show() 
   {
-    if(drawFruit == true) 
+    if (drawFruit == true) 
     {
-      fill(circleColor);
-      rectMode(CENTER);
-      ellipse(fruitX, fruitY, fruitSize, fruitSize);
-    }
-  }
-  
-  void checkCollision()
-  {
-    if(dist(fruitX, fruitY, playerHandX, playerHandY) <= 50)
-    {
-      background(255,0,0); 
+      shape(Appel, fruitX, fruitY);
     }
   }
 
+ 
+
   void applyGravity()
   {
-      ballSpdVert += gravity;
-      fruitY += ballSpdVert;
+    ballSpdVert += gravity;
+    fruitY += ballSpdVert;
   }
-  
+
   void shootUp() 
   {
     ballSpdVert -= shootSpd;
+
+    if (fruitX > width/2) {
+    }
   }
-  
+
   void destroy() 
   {
-    if(fruitY > height + 200)
+    if (fruitY > height + 200)
     {
       drawFruit = false;
+      fruits.remove(0);
     }
   }
 }
