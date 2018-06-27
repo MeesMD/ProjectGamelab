@@ -1,25 +1,21 @@
 class Score {
   Fruit fruit;
   int score = 0;
-  boolean isHit = false;
+  boolean ishit = false;
 
-  void checkCollision()
+  void AddScore()
   {
-    if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) <= 50)
+    if (fruit.isHit)
     {
-      if (isHit==false)
+      if (ishit==false)
       {
         score ++;
-        //println(score);
+        println(score);
       }
-      
-      background(255, 0, 0);
-      isHit = true;
-    }
-
-    else
+      ishit = true;
+    } else
     {
-      isHit = false;
+      ishit = false;
     }
   }
 }

@@ -7,7 +7,6 @@ Score score;
 Timer timer = new Timer();
 
 ArrayList<Fruit> fruits;
-PShape appleShape;
 PImage background;
 PFont titleFont;
 int gameScreen = 0;
@@ -18,11 +17,10 @@ int handSize = 20;
 void setup() 
 { 
   frameRate(90);
-  size(1280, 800, P3D);
+  size(1280, 800);
   //fullScreen();
   smooth();
 
-  appleShape = loadShape("Objects/Appel.obj");
   background = loadImage("test.jpg");
   titleFont = loadFont("KristenITC-Regular-48.vlw");
 
@@ -33,13 +31,12 @@ void setup()
 
 void draw() 
 {
-  lights();
-
   if (gameScreen == 0) 
   {
     initScreen();
     textFont(titleFont, 24);
     text("Fruit Ninja", width/2, height/4);
+    fill(0);
   } else if (gameScreen == 1) 
   {
     gameScreen();
@@ -62,7 +59,7 @@ void initScreen()
 void gameScreen() 
 {
   background(background);
-  score.checkCollision();
+  //score.AddScore();
   spawnNewFruit();
   drawHandCircle();
 
@@ -134,7 +131,7 @@ void spawnNewFruit()
 
   if (timer.timeEnd == true)
   {
-    fruit = new Fruit(appleShape);
+    fruit = new Fruit();
     fruits.add(fruit);
   }
 }     
