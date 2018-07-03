@@ -3,7 +3,7 @@ import processing.opengl.*;
 
 Fruit fruit;
 Button button;
-Score score;
+Score score = new Score();
 Timer timer = new Timer();
 
 ArrayList<Fruit> fruits;
@@ -12,6 +12,8 @@ PFont titleFont;
 int gameScreen = 0;
 int playerHandX, playerHandY;
 int handSize = 20;
+boolean isHit;
+
 /********* SETUP BLOCK *********/
 
 void setup() 
@@ -33,55 +35,39 @@ void draw()
 {
   if (gameScreen == 0) 
   {
-    initScreen();
+    button = new Button();
+    button.update();
+
     textFont(titleFont, 24);
     text("Fruit Ninja", width/2, height/4);
-    fill(0);
-  } else if (gameScreen == 1) 
+  } 
+  
+  else if (gameScreen == 1) 
   {
-    gameScreen();
-  } else if (gameScreen == 2) 
-  {
-    gameOverScreen();
-  }
-}
+    background(background);
+    spawnNewFruit();
+    drawHandCircle();
+    checkCollision();
+    score.show();
 
-
-/********* SCREEN CONTENTS *********/
-
-void initScreen() 
-{ 
-  button = new Button();
-  button.update();
-}
-
-
-void gameScreen() 
-{
-  background(background);
-  //score.AddScore();
-  spawnNewFruit();
-  drawHandCircle();
-
-  if (fruit != null) {
-    for (int i = fruits.size() - 1; i >= 0; i--) {
-      Fruit fruit = fruits.get(i);
-      fruit.update();
+    if (fruit != null) {
+      for (int i = fruits.size() - 1; i >= 0; i--) {
+        Fruit fruit = fruits.get(i);
+        fruit.update();
+      }
     }
+  } 
+  
+  else if (gameScreen == 2) 
+  {
+    background(0);
+    textAlign(CENTER);
+    fill(255);
+    textSize(30);
+    text("Game Over", height/2, width/2 - 20);
+    textSize(15);
+    text("Click to Restart", height/2, width/2 + 10);
   }
-}
-
-
-
-void gameOverScreen() 
-{
-  background(0);
-  textAlign(CENTER);
-  fill(255);
-  textSize(30);
-  text("Game Over", height/2, width/2 - 20);
-  textSize(15);
-  text("Click to Restart", height/2, width/2 + 10);
 }
 
 
@@ -114,6 +100,22 @@ void startGame()
 void gameOver()
 {
   gameScreen = 2;
+}
+
+void checkCollision()
+{
+  if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) <= fruit.fruitSize)
+  {
+    if (isHit==false)
+    {
+      score.addScore();
+      fruit.slicedManager();
+    }
+    isHit = true;
+  } else
+  {
+    isHit = false;
+  }
 }
 
 void drawHandCircle()

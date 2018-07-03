@@ -1,21 +1,16 @@
 class Score {
-  Fruit fruit;
   int score = 0;
-  boolean ishit = false;
-
-  void AddScore()
+  
+  void show()
   {
-    if (fruit.isHit)
-    {
-      if (ishit==false)
-      {
-        score ++;
-        println(score);
-      }
-      ishit = true;
-    } else
-    {
-      ishit = false;
-    }
+   fill(255);
+   textSize(40); 
+   text("Score = "+score, 50, 50);
+  }
+
+  void addScore()
+  {
+    score++;
+    println(score);
   }
 }

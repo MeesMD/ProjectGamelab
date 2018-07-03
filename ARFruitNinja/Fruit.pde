@@ -1,12 +1,13 @@
 class Fruit {
-  Score score;
+  Score score = new Score();
   int fruitSize = 100;
   float fruitX, fruitY;
   float gravity = 0.1;
   float ballSpdVert = 0;
   float shootSpd = random(10, 12);
   boolean drawFruit = true;
-  boolean isHit = false;
+  boolean isHit;
+  boolean isSliced;
 
 
   Fruit() 
@@ -21,29 +22,18 @@ class Fruit {
   {
     applyGravity();
     destroy();
-    checkCollision();
+
     show();
   }
 
   void show() 
   {
-    if (drawFruit == true) 
+    if (drawFruit) 
     {
-      fill(0);
+      fill(255, 0, 0);
       rectMode(CENTER);
       ellipse(fruitX, fruitY, fruitSize, fruitSize);
     }
-  }
-
-  void checkCollision()
-  {
-    if (dist(fruitX, fruitY, playerHandX, playerHandY) <= 50)
-    {
-      background(255, 0, 0);
-      isHit = true;
-      println(isHit);
-    }
-    isHit = false;
   }
 
   void applyGravity()
@@ -56,7 +46,9 @@ class Fruit {
   {
     ballSpdVert -= shootSpd;
 
-    if (fruitX > width/2) {
+    if (fruitX > width/2) 
+    {
+      //change angle
     }
   }
 
@@ -67,5 +59,11 @@ class Fruit {
       drawFruit = false;
       fruits.remove(0);
     }
+  }
+
+  void slicedManager()
+  {
+    fill(0);
+    println("issliced");
   }
 }
