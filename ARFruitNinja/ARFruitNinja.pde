@@ -4,6 +4,7 @@ import processing.opengl.*;
 Fruit fruit;
 Button button;
 Score score = new Score();
+Health health = new Health();
 Timer timer = new Timer();
 
 ArrayList<Fruit> fruits;
@@ -12,7 +13,7 @@ PFont titleFont;
 int gameScreen = 0;
 int playerHandX, playerHandY;
 int handSize = 20;
-boolean isHit;
+boolean isSliced;
 
 /********* SETUP BLOCK *********/
 
@@ -47,10 +48,13 @@ void draw()
     background(background);
     spawnNewFruit();
     drawHandCircle();
-    checkCollision();
-    score.show();
 
     if (fruit != null) {
+      checkCollision();
+      slicedManager();
+      score.show();
+      health.show();
+
       for (int i = fruits.size() - 1; i >= 0; i--) {
         Fruit fruit = fruits.get(i);
         fruit.update();
@@ -79,44 +83,50 @@ public void mousePressed()
   {
     if (gameScreen == 0)
     {
-      startGame();
+      gameScreen = 1;
     }
   }
 
-  if (gameScreen == 2)
+  if (gameScreen == 1)
   {
-    gameOver();
+    if (health.health == 0)
+    {
+      gameScreen = 2;
+      println("ded");
+    }
   }
 }
 
 
 /********* OTHER FUNCTIONS *********/
 
-void startGame() 
-{
-  gameScreen = 1;
-}
-
-void gameOver()
-{
-  gameScreen = 2;
-}
-
 void checkCollision()
 {
-  if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) <= fruit.fruitSize)
+  if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) < fruit.fruitSize)
   {
-    if (isHit==false)
+    if (isSliced == false)
     {
       score.addScore();
-      fruit.slicedManager();
+      isSliced = true;
     }
-    isHit = true;
-  } else
-  {
-    isHit = false;
-  }
+    isSliced = false;
+  }  
 }
+
+void slicedManager()
+  {
+    if(isSliced)
+    {
+       //apple is sliced
+    }
+    else
+    {
+      if(fruit.fruitY > height + 100)
+      {
+        health.decHealth();
+      }
+    }
+  }
 
 void drawHandCircle()
 {
@@ -136,4 +146,4 @@ void spawnNewFruit()
     fruit = new Fruit();
     fruits.add(fruit);
   }
-}     
+} 

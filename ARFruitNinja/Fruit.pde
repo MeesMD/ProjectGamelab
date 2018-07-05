@@ -1,29 +1,33 @@
 class Fruit {
-  Score score = new Score();
   int fruitSize = 100;
+  float spawnPoint = height + 50;
   float fruitX, fruitY;
   float gravity = 0.1;
   float ballSpdVert = 0;
   float shootSpd = random(10, 12);
   boolean drawFruit = true;
   boolean isHit;
-  boolean isSliced;
+  boolean isSliced = false;
 
 
   Fruit() 
   {
     fruitX = random(fruitSize/2, width - fruitSize/2);
-    fruitY = height;
+    fruitY = spawnPoint;
 
     shootUp();
   }
 
   void update () 
   {
+    show();
     applyGravity();
     destroy();
-
-    show();
+    
+    if (fruitX < width/2) 
+    {
+      //fruitX +=2;
+    }
   }
 
   void show() 
@@ -45,25 +49,14 @@ class Fruit {
   void shootUp() 
   {
     ballSpdVert -= shootSpd;
-
-    if (fruitX > width/2) 
-    {
-      //change angle
-    }
   }
-
+  
   void destroy() 
   {
-    if (fruitY > height + 200)
+    if (fruitY > height + 101)
     {
       drawFruit = false;
       fruits.remove(0);
     }
-  }
-
-  void slicedManager()
-  {
-    fill(0);
-    println("issliced");
   }
 }

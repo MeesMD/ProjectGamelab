@@ -11,6 +11,5 @@ class Score {
   void addScore()
   {
     score++;
-    println(score);
   }
 }
