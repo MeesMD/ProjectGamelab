@@ -1,5 +1,10 @@
 import processing.opengl.*;
+import org.openkinect.freenect.*;
+import org.openkinect.processing.*;
 /********* VARIABLES *********/
+
+Kinect kinect;
+KinectTracker tracker;
 
 Fruit fruit;
 Button button;
@@ -13,7 +18,10 @@ PFont titleFont;
 int gameScreen = 0;
 int playerHandX, playerHandY;
 int handSize = 20;
+int Swidth = 1280; 
+int Sheight = 800;
 boolean isSliced;
+boolean fullscreen = false;
 
 /********* SETUP BLOCK *********/
 
@@ -28,6 +36,9 @@ void setup()
   titleFont = loadFont("KristenITC-Regular-48.vlw");
 
   fruits = new ArrayList<Fruit>();
+
+  kinect = new Kinect(this);
+  tracker = new KinectTracker();
 } 
 
 /********* DRAW BLOCK *********/
@@ -41,6 +52,27 @@ void draw()
 
     textFont(titleFont, 24);
     text("Fruit Ninja", width/2, height/4);
+
+    tracker.track();
+    tracker.display();
+
+    PVector v1 = tracker.getPos();
+    fill(50, 100, 250, 200);
+    noStroke();
+    ellipse(v1.x, v1.y, 20, 20);
+
+    // Let's draw the "lerped" location
+    PVector v2 = tracker.getLerpedPos();
+    fill(100, 250, 50, 200);
+    noStroke();
+    ellipse(v2.x, v2.y, 20, 20);
+
+    // Display some info
+    int t = tracker.getThreshold();
+    fill(0);
+    textSize(20);
+    text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
+      "UP increase threshold, DOWN decrease threshold", 10, 500);
   } 
   
   else if (gameScreen == 1) 
@@ -99,6 +131,19 @@ public void mousePressed()
 
 
 /********* OTHER FUNCTIONS *********/
+void keyPressed() {
+  int t = tracker.getThreshold();
+  if (key == CODED) {
+    if (keyCode == UP) {
+      t+=5;
+      tracker.setThreshold(t);
+    } else if (keyCode == DOWN) {
+      t-=5;
+      tracker.setThreshold(t);
+    }
+  }
+}
+
 
 void checkCollision()
 {
@@ -110,26 +155,30 @@ void checkCollision()
       isSliced = true;
     }
     isSliced = false;
-  }  
+  }
 }
 
 void slicedManager()
+{
+  if (isSliced)
   {
-    if(isSliced)
+    //apple is sliced
+  } else
+  {
+    if (fruit.fruitY > height + 100)
     {
-       //apple is sliced
-    }
-    else
-    {
-      if(fruit.fruitY > height + 100)
-      {
-        health.decHealth();
-      }
+      health.decHealth();
     }
   }
+}
 
 void drawHandCircle()
 {
+  //GEBRUIK DIT ALS KINECT VOOR HAND
+  /*PVector v1 = tracker.getPos();
+  playerHandX = v1.x;
+  playerHandY =  v1.y;*/
+  
   playerHandX = mouseX;
   playerHandY = mouseY;
   fill(255, 0, 255);
