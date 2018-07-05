@@ -16,7 +16,7 @@ ArrayList<Fruit> fruits;
 PImage background;
 PFont titleFont;
 int gameScreen = 0;
-int playerHandX, playerHandY;
+float playerHandX, playerHandY;
 int handSize = 20;
 int Swidth = 1280; 
 int Sheight = 800;
@@ -45,39 +45,37 @@ void setup()
 
 void draw() 
 {
+  textFont(titleFont, 24);
+  text("Fruit Ninja", width/2, height/4);
+
+  tracker.track();
+  
+
+  PVector v1 = tracker.getPos();
+  fill(50, 100, 250, 200);
+  noStroke();
+  ellipse(v1.x, v1.y, 20, 20);
+
+  // Display some info
+  int t = tracker.getThreshold();
+  fill(0);
+  textSize(20);
+  text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
+    "UP increase threshold, DOWN decrease threshold", 10, 500);
+    
   if (gameScreen == 0) 
   {
     button = new Button();
     button.update();
-
+    
     textFont(titleFont, 24);
     text("Fruit Ninja", width/2, height/4);
-
-    tracker.track();
-    tracker.display();
-
-    PVector v1 = tracker.getPos();
-    fill(50, 100, 250, 200);
-    noStroke();
-    ellipse(v1.x, v1.y, 20, 20);
-
-    // Let's draw the "lerped" location
-    PVector v2 = tracker.getLerpedPos();
-    fill(100, 250, 50, 200);
-    noStroke();
-    ellipse(v2.x, v2.y, 20, 20);
-
-    // Display some info
-    int t = tracker.getThreshold();
-    fill(0);
-    textSize(20);
-    text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
-      "UP increase threshold, DOWN decrease threshold", 10, 500);
   } 
   
   else if (gameScreen == 1) 
   {
     background(background);
+    tracker.display();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     spawnNewFruit();
     drawHandCircle();
 
@@ -175,9 +173,9 @@ void slicedManager()
 void drawHandCircle()
 {
   //GEBRUIK DIT ALS KINECT VOOR HAND
-  /*PVector v1 = tracker.getPos();
-  playerHandX = v1.x;
-  playerHandY =  v1.y;*/
+  //PVector v1 = tracker.getPos();
+  //playerHandX = v1.x;
+  //playerHandY =  v1.y;
   
   playerHandX = mouseX;
   playerHandY = mouseY;
