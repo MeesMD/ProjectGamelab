@@ -8,6 +8,9 @@ KinectTracker tracker;
 
 Fruit fruit;
 Button button;
+Button quitButton;
+Button restart;
+Button quitGame;
 Score score = new Score();
 Health health = new Health();
 Timer timer = new Timer();
@@ -15,7 +18,7 @@ Timer timer = new Timer();
 ArrayList<Fruit> fruits;
 PImage background;
 PFont titleFont;
-int gameScreen = 0;
+int gameScreen = 2;
 float playerHandX, playerHandY;
 int handSize = 20;
 int Swidth = 1280; 
@@ -49,7 +52,7 @@ void draw()
   text("Fruit Ninja", width/2, height/4);
 
   tracker.track();
-  
+
 
   PVector v1 = tracker.getPos();
   fill(50, 100, 250, 200);
@@ -62,17 +65,24 @@ void draw()
   textSize(20);
   text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
     "UP increase threshold, DOWN decrease threshold", 10, 500);
-    
+
   if (gameScreen == 0) 
   {
+    background(background);
     button = new Button();
+    button.position(width/2, height/2);
+    button.Text("Start Game");
     button.update();
-    
-    textFont(titleFont, 24);
+
+    quitButton = new Button();
+    quitButton.position(width/2, height/2+120);
+    quitButton.Text("Quit MOAN");
+    quitButton.update();
+
+    textFont(titleFont, 35);
+    fill(255);
     text("Fruit Ninja", width/2, height/4);
-  } 
-  
-  else if (gameScreen == 1) 
+  } else if (gameScreen == 1) 
   {
     background(background);
     tracker.display();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -90,17 +100,30 @@ void draw()
         fruit.update();
       }
     }
-  } 
-  
-  else if (gameScreen == 2) 
+  } else if (gameScreen == 2) 
   {
-    background(0);
-    textAlign(CENTER);
+    background(background);
+
+    restart = new Button();
+    restart.position(width/2, height/2);
+    restart.Text("Restart");
+    restart.update();
+
+    quitGame = new Button();
+    quitGame.position(width/2, height/2+120);
+    quitGame.Text("Quit MOAN");
+    quitGame.update();
+
+    //quitButton = new Button();
+    //quitButton.position(width/2, height/2 +120);
+    //quitButton.Text("Quit");
+    //quitButton.update();
+
+    textAlign(LEFT);
     fill(255);
     textSize(30);
-    text("Game Over", height/2, width/2 - 20);
+    text("Game Over", width/2, height/4);
     textSize(15);
-    text("Click to Restart", height/2, width/2 + 10);
   }
 }
 
@@ -109,14 +132,31 @@ void draw()
 
 public void mousePressed() 
 {
-  if (button.circleOver) 
+  if (gameScreen  == 0)
   {
-    if (gameScreen == 0)
+    if (button.circleOver) 
+    {
+      if (gameScreen == 0)
+      {
+        gameScreen = 1;
+      }
+    }
+    if (quitButton.circleOver)
+    {
+      exit();
+    }
+  }
+  if (gameScreen == 2)
+  {
+    if (quitGame.circleOver)
+    {
+      exit();
+    }
+    if (restart.circleOver)
     {
       gameScreen = 1;
     }
   }
-
   if (gameScreen == 1)
   {
     if (health.health == 0)
@@ -176,7 +216,7 @@ void drawHandCircle()
   //PVector v1 = tracker.getPos();
   //playerHandX = v1.x;
   //playerHandY =  v1.y;
-  
+
   playerHandX = mouseX;
   playerHandY = mouseY;
   fill(255, 0, 255);

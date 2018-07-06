@@ -4,9 +4,10 @@ class Button {
   color circleColor, circleHighlight, baseColor;
   boolean circleOver = false;
   color currentColor;
+  color textColor;
   
   
-  Button()
+  Button() 
   {
     circleX = width/2;
     circleY = height/2;
@@ -16,22 +17,31 @@ class Button {
     baseColor = color(102);
     circleHighlight = color(102,205,44);
     currentColor = baseColor;
+    textSize(24);
+    fill(255);
   }
-  
+  void position(int x, int y)
+  {
+    circleX = x;
+    circleY = y;
+  }
+  void Text(String text)
+  {
+    fill(255);
+       text(text, circleX+circleSize/2 + 20, circleY);
+  }
   void show() 
   {
-    background(currentColor);
     
     if (circleOver) 
     {
-      fill(circleHighlight);
+       fill(circleHighlight);
     } 
     else 
     {
       fill(circleColor);
     }
     
-    stroke(0);
     ellipse(circleX, circleY, circleSize, circleSize);
   }
   
