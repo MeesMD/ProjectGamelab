@@ -1,19 +1,17 @@
 class Fruit {
   int fruitSize = 100;
-  float spawnPoint = height + 50;
   float fruitX, fruitY;
   float gravity = 0.1;
   float ballSpdVert = 0;
-  float shootSpd = random(10, 12);
+  float shootSpd = random(12, 14);
   boolean drawFruit = true;
-  boolean isHit;
   boolean isSliced = false;
-
+  boolean isActive = true;
 
   Fruit() 
   {
     fruitX = random(fruitSize/2, width - fruitSize/2);
-    fruitY = spawnPoint;
+    fruitY = 850;
 
     shootUp();
   }
@@ -22,8 +20,9 @@ class Fruit {
   {
     show();
     applyGravity();
+    slicedManager();
     destroy();
-    
+
     if (fruitX < width/2) 
     {
       //fruitX +=2;
@@ -40,6 +39,21 @@ class Fruit {
     }
   }
 
+  void slicedManager()
+  {
+    if (isActive == false)
+    {
+      //apple is sliced
+    } 
+    else
+    {
+      if (fruitY > height + 100)
+      {
+        health.decHealth();
+      }
+    }
+  }
+  
   void applyGravity()
   {
     ballSpdVert += gravity;
@@ -50,7 +64,7 @@ class Fruit {
   {
     ballSpdVert -= shootSpd;
   }
-  
+
   void destroy() 
   {
     if (fruitY > height + 101)

@@ -4,8 +4,8 @@ class Score {
   void show()
   {
    fill(255);
-   textSize(40); 
-   text("Score = "+score, 50, 50);
+   textSize(60); 
+   text("Score = "+score, 50, 80);
   }
 
   void addScore()

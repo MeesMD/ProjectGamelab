@@ -1,7 +1,7 @@
 class Button {
   int circleX, circleY; 
   int circleSize = 93;  
-  color circleColor, circleHighlight, baseColor;
+  color circleColor, circleHighlight;
   boolean circleOver = false;
   color currentColor;
   
@@ -13,25 +13,22 @@ class Button {
     ellipseMode(CENTER);
     
     circleColor = color(255);
-    baseColor = color(102);
     circleHighlight = color(102,205,44);
-    currentColor = baseColor;
   }
   
   void show() 
-  {
-    background(currentColor);
-    
+  { 
     if (circleOver) 
     {
-      fill(circleHighlight);
+      fill(102,205,44);
     } 
     else 
     {
-      fill(circleColor);
+      fill(255);
     }
     
-    stroke(0);
+    //stroke(0);
+    
     ellipse(circleX, circleY, circleSize, circleSize);
   }
   
@@ -45,7 +42,6 @@ class Button {
     {
       circleOver = false;
     }
-    
     show();
   }
   

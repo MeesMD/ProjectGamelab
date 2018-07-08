@@ -20,8 +20,7 @@ float playerHandX, playerHandY;
 int handSize = 20;
 int Swidth = 1280; 
 int Sheight = 800;
-boolean isSliced;
-boolean fullscreen = false;
+boolean fullscreen = true;
 
 /********* SETUP BLOCK *********/
 
@@ -45,29 +44,26 @@ void setup()
 
 void draw() 
 {
+  fill(0);
   textFont(titleFont, 24);
   text("Fruit Ninja", width/2, height/4);
 
-  tracker.track();
-  
 
   PVector v1 = tracker.getPos();
-  fill(50, 100, 250, 200);
+  fill(0, 0, 255);
   noStroke();
   ellipse(v1.x, v1.y, 20, 20);
 
   // Display some info
   int t = tracker.getThreshold();
   fill(0);
-  textSize(20);
-  text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
-    "UP increase threshold, DOWN decrease threshold", 10, 500);
-    
+
   if (gameScreen == 0) 
   {
+    background(background);
     button = new Button();
     button.update();
-    
+
     textFont(titleFont, 24);
     text("Fruit Ninja", width/2, height/4);
   } 
@@ -75,13 +71,13 @@ void draw()
   else if (gameScreen == 1) 
   {
     background(background);
-    tracker.display();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //tracker.display();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    tracker.track();
     spawnNewFruit();
     drawHandCircle();
 
     if (fruit != null) {
       checkCollision();
-      slicedManager();
       score.show();
       health.show();
 
@@ -89,6 +85,11 @@ void draw()
         Fruit fruit = fruits.get(i);
         fruit.update();
       }
+    }
+    if (health.healthAmount == 0)
+    {
+      gameScreen = 2;
+      println("ded");
     }
   } 
   
@@ -116,15 +117,6 @@ public void mousePressed()
       gameScreen = 1;
     }
   }
-
-  if (gameScreen == 1)
-  {
-    if (health.health == 0)
-    {
-      gameScreen = 2;
-      println("ded");
-    }
-  }
 }
 
 
@@ -142,30 +134,23 @@ void keyPressed() {
   }
 }
 
-
 void checkCollision()
 {
-  if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) < fruit.fruitSize)
-  {
-    if (isSliced == false)
+  for (int i = fruits.size() - 1; i >= 0; i--) {
+      Fruit fruit = fruits.get(i);
+    
+    if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) < fruit.fruitSize)
     {
-      score.addScore();
-      isSliced = true;
-    }
-    isSliced = false;
-  }
-}
-
-void slicedManager()
-{
-  if (isSliced)
-  {
-    //apple is sliced
-  } else
-  {
-    if (fruit.fruitY > height + 100)
+      if (fruit.isSliced == false && fruit.isActive)
+      {
+        score.addScore();
+        fruit.isSliced = true;
+        fruit.isActive = false;
+      }
+    } 
+    else 
     {
-      health.decHealth();
+      fruit.isSliced = false;
     }
   }
 }
@@ -176,7 +161,7 @@ void drawHandCircle()
   //PVector v1 = tracker.getPos();
   //playerHandX = v1.x;
   //playerHandY =  v1.y;
-  
+
   playerHandX = mouseX;
   playerHandY = mouseY;
   fill(255, 0, 255);
