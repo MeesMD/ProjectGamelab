@@ -45,39 +45,34 @@ class Button {
         {
           fill(255);
         }
-
-
-        //stroke(0);
-
-
-
-        ellipse(circleX, circleY, circleSize, circleSize);
       }
+    }
+    //stroke(0);
+    ellipse(circleX, circleY, circleSize, circleSize);
+  }
 
-      void update() 
-      {
-        if (overCircle(circleX, circleY, circleSize)) 
-        {
-          circleOver = true;
-        } else 
-        {
-          circleOver = false;
-        }
-        show();
-      }
+  void update() 
+  {
+    if (overCircle(circleX, circleY, circleSize)) 
+    {
+      circleOver = true;
+    } else 
+    {
+      circleOver = false;
+    }
+    show();
+  }
 
-      boolean overCircle(int x, int y, int diameter) 
-      {
-        float disX = x - mouseX;
-        float disY = y - mouseY;
-        if (sqrt(sq(disX) + sq(disY)) < diameter/2 ) 
-        {
-          return true;
-        } else 
-        {
-          return false;
-        }
-      }
+  boolean overCircle(int x, int y, int diameter) 
+  {
+    float disX = x - mouseX;
+    float disY = y - mouseY;
+    if (sqrt(sq(disX) + sq(disY)) < diameter/2 ) 
+    {
+      return true;
+    } else 
+    {
+      return false;
     }
   }
 }

@@ -114,7 +114,6 @@ void draw()
       println("ded");
     }
   } else if (gameScreen == 2)
-  } else if (gameScreen == 2) 
 
 {
   background(background);
@@ -175,7 +174,7 @@ public void mousePressed()
 
   if (gameScreen == 1)
   {
-    if (health.health == 0)
+    if (health.healthAmount == 0)
     {
       gameScreen = 2;
       println("ded");
