@@ -8,6 +8,9 @@ KinectTracker tracker;
 
 Fruit fruit;
 Button button;
+Button quitButton;
+Button restart;
+Button quitGame;
 Score score = new Score();
 Health health = new Health();
 Timer timer = new Timer();
@@ -15,7 +18,7 @@ Timer timer = new Timer();
 ArrayList<Fruit> fruits;
 PImage background;
 PFont titleFont;
-int gameScreen = 0;
+int gameScreen = 2;
 float playerHandX, playerHandY;
 int handSize = 20;
 int Swidth = 1280; 
@@ -49,6 +52,10 @@ void draw()
   text("Fruit Ninja", width/2, height/4);
 
 
+  tracker.track();
+
+
+
   PVector v1 = tracker.getPos();
   fill(0, 0, 255);
   noStroke();
@@ -58,17 +65,31 @@ void draw()
   int t = tracker.getThreshold();
   fill(0);
 
+  textSize(20);
+  text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
+    "UP increase threshold, DOWN decrease threshold", 10, 500);
+
+
   if (gameScreen == 0) 
   {
     background(background);
     button = new Button();
+    button.position(width/2, height/2);
+    button.Text("Start Game");
     button.update();
 
     textFont(titleFont, 24);
+
+    quitButton = new Button();
+    quitButton.position(width/2, height/2+120);
+    quitButton.Text("Quit MOAN");
+    quitButton.update();
+
+    textFont(titleFont, 35);
+    fill(255);
+
     text("Fruit Ninja", width/2, height/4);
-  } 
-  
-  else if (gameScreen == 1) 
+  } else if (gameScreen == 1) 
   {
     background(background);
     //tracker.display();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -86,23 +107,39 @@ void draw()
         fruit.update();
       }
     }
+
     if (health.healthAmount == 0)
     {
       gameScreen = 2;
       println("ded");
     }
-  } 
-  
-  else if (gameScreen == 2) 
-  {
-    background(0);
-    textAlign(CENTER);
-    fill(255);
-    textSize(30);
-    text("Game Over", height/2, width/2 - 20);
-    textSize(15);
-    text("Click to Restart", height/2, width/2 + 10);
-  }
+  } else if (gameScreen == 2)
+  } else if (gameScreen == 2) 
+
+{
+  background(background);
+
+  restart = new Button();
+  restart.position(width/2, height/2);
+  restart.Text("Restart");
+  restart.update();
+
+  quitGame = new Button();
+  quitGame.position(width/2, height/2+120);
+  quitGame.Text("Quit MOAN");
+  quitGame.update();
+
+  //quitButton = new Button();
+  //quitButton.position(width/2, height/2 +120);
+  //quitButton.Text("Quit");
+  //quitButton.update();
+
+  textAlign(LEFT);
+  fill(255);
+  textSize(30);
+  text("Game Over", width/2, height/4);
+  textSize(15);
+}
 }
 
 
@@ -110,11 +147,38 @@ void draw()
 
 public void mousePressed() 
 {
-  if (button.circleOver) 
+  if (gameScreen  == 0)
   {
-    if (gameScreen == 0)
+    if (button.circleOver) 
+    {
+      if (gameScreen == 0)
+      {
+        gameScreen = 1;
+      }
+    }
+    if (quitButton.circleOver)
+    {
+      exit();
+    }
+  }
+  if (gameScreen == 2)
+  {
+    if (quitGame.circleOver)
+    {
+      exit();
+    }
+    if (restart.circleOver)
     {
       gameScreen = 1;
+    }
+  }
+
+  if (gameScreen == 1)
+  {
+    if (health.health == 0)
+    {
+      gameScreen = 2;
+      println("ded");
     }
   }
 }
@@ -137,8 +201,8 @@ void keyPressed() {
 void checkCollision()
 {
   for (int i = fruits.size() - 1; i >= 0; i--) {
-      Fruit fruit = fruits.get(i);
-    
+    Fruit fruit = fruits.get(i);
+
     if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) < fruit.fruitSize)
     {
       if (fruit.isSliced == false && fruit.isActive)
@@ -147,8 +211,7 @@ void checkCollision()
         fruit.isSliced = true;
         fruit.isActive = false;
       }
-    } 
-    else 
+    } else 
     {
       fruit.isSliced = false;
     }
