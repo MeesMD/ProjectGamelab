@@ -16,7 +16,7 @@ class Fruit {
     fruitX = random(fruitSize/2+800, width - fruitSize/2-200);
     fruitY = height + 50;
     
-    if (fruitX < 1300) 
+    if (fruitX < width/2-200) 
     {
       fruitX +=20;
     }

@@ -42,7 +42,8 @@ boolean fullscreen = true;
 void setup() 
 { 
   //size(1280, 800);
-  fullScreen();
+  size(1920, 1080);
+  //fullScreen();
   smooth();
 
   fruits = new ArrayList<Fruit>();
