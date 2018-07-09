@@ -10,6 +10,6 @@ class Health {
 
   void decHealth()
   {
-    //healthAmount--;
+    healthAmount--;
   }
 }

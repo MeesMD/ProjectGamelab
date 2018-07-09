@@ -1,4 +1,6 @@
 class Fruit {
+  Timer timer = new Timer();
+  
   int fruitSize = 100;
   float fruitX, fruitY;
   float gravity = 0.1;
@@ -10,9 +12,19 @@ class Fruit {
 
   Fruit() 
   {
-    fruitX = random(fruitSize/2, width - fruitSize/2);
-    fruitY = 850;
-
+    
+    fruitX = random(fruitSize/2+800, width - fruitSize/2-200);
+    fruitY = height + 50;
+    
+    if (fruitX < 1300) 
+    {
+      fruitX +=20;
+    }
+    else
+    {
+      fruitX -=20; 
+    }
+    
     shootUp();
   }
 
@@ -23,19 +35,13 @@ class Fruit {
     slicedManager();
     destroy();
 
-    if (fruitX < width/2) 
-    {
-      //fruitX +=2;
-    }
   }
 
   void show() 
   {
     if (drawFruit) 
     {
-      fill(255, 0, 0);
-      rectMode(CENTER);
-      ellipse(fruitX, fruitY, fruitSize, fruitSize);
+      image(apple, fruitX, fruitY, fruitSize, fruitSize);
     }
   }
 
@@ -50,6 +56,10 @@ class Fruit {
       if (fruitY > height + 100)
       {
         health.decHealth();
+        missedFruit.trigger();
+        
+        timer.interval -= 500;
+        timer.interval2 -= 500;
       }
     }
   }

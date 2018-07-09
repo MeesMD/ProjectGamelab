@@ -15,8 +15,7 @@ class Button {
 
     circleColor = color(255);
     circleHighlight = color(102, 205, 44);
-    currentColor = baseColor;
-    textSize(24);
+    textSize(30);
     fill(255);
   }
   void position(int x, int y)
