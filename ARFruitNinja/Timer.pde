@@ -1,7 +1,7 @@
 class Timer { 
  float lasttimecheck = millis();
  boolean timeEnd = false;
- float begintimer = 3000;
+ float begintimer = 5000;
  float interval = 0;
  float interval2 = 0;
  
@@ -14,10 +14,10 @@ class Timer {
      lasttimecheck = millis();
      timeEnd = true;
       
-     if(interval >= 3000 || interval2 >= 4000)
+     if(interval >= 3500 || interval2 >= 4500)
      {
-       interval = 3000;
-       interval2 = 4000;
+       interval = 3500;
+       interval2 = 4500;
      }
   
      begintimer = random(4000-interval,5000-interval2);

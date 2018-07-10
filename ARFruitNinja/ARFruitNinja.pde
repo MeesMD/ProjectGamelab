@@ -3,6 +3,7 @@ import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
 import ddf.minim.*;
 /********* VARIABLES *********/
+Particle[] particles = new Particle [20];
 
 Kinect kinect;
 KinectTracker tracker;
@@ -29,6 +30,7 @@ ArrayList<Fruit> fruits;
 PImage background;
 PImage apple;
 PImage logo;
+PImage gameOver
 PFont titleFont;
 int gameScreen = 0;
 float playerHandX, playerHandY;
@@ -44,13 +46,12 @@ void setup()
   //size(1280, 800);
   fullScreen();
   smooth();
-
   fruits = new ArrayList<Fruit>();
-  
+
   minim = new Minim(this);
   kinect = new Kinect(this);
   tracker = new KinectTracker();
-  
+
   missedFruit = minim.loadSample("missedFruit.wav");
   fruitSpawn = minim.loadSample("fruitSpawn.wav");
   startFlute = minim.loadSample("startFlute.wav");
@@ -58,9 +59,10 @@ void setup()
   mainMenu = minim.loadFile("mainMenu.wav");
   inGame = minim.loadFile("inGame.wav");
   gameOver = minim.loadFile("gameOver.wav");
-  
+
   titleFont = loadFont("KristenITC-Regular-48.vlw");
   apple = loadImage("apple.png");
+  gameOver = loadImage("gameOver.png");
   background = loadImage("background.jpeg");
   logo = loadImage("logo.png");
 } 
@@ -69,10 +71,8 @@ void setup()
 
 void draw() 
 {
-  tracker.track();
   textFont(titleFont, 24);
   PVector v1 = tracker.getPos();
-  fill(0, 0, 255);
   noStroke();
   ellipse(v1.x, v1.y, 20, 20);
 
@@ -80,12 +80,12 @@ void draw()
   {     
     mainMenu.play();
     mainMenu.setGain(-10);
-    
+
     background(background);
-    
-    image(logo,500,0);
-    logo.resize(1000,650);
-    
+
+    image(logo, 500, 0);
+    logo.resize(1000, 650);
+
     button = new Button();
     button.position(width/2-50, height/2+120);
     button.Text("Start Game");
@@ -105,8 +105,8 @@ void draw()
     gameOver.rewind();
     
     background(background);
-    tracker.display();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    tracker.track();
+    //tracker.display();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //tracker.track();
     spawnNewFruit();
     drawHandCircle();
 
@@ -127,7 +127,6 @@ void draw()
       health.healthAmount = 5;
     }
   } 
-  
   else if (gameScreen == 2)
   {
     gameOver.play();
@@ -135,32 +134,32 @@ void draw()
     inGame.pause();
     inGame.rewind();
     background(background);
-  
+
     restart = new Button();
     restart.position(width/2, height/2);
     restart.Text("Restart");
     restart.update();
-  
+
     quitGame = new Button();
     quitGame.position(width/2, height/2+120);
     quitGame.Text("Quit");
     quitGame.update();
- 
-  
+
+
     textAlign(LEFT);
     fill(255);
     textSize(30);
     text("Game Over", width/2, height/4);
     textSize(15);
-    
+
     for (int i = fruits.size() - 1; i >= 0; i--) {
-        Fruit fruit = fruits.get(i);
-        fruit.drawFruit = false;
-        fruits.remove(i);
-      }
-      score.score = 0;
-      timer.interval = 0;
-      timer.interval = 0;
+      Fruit fruit = fruits.get(i);
+      fruit.drawFruit = false;
+      fruits.remove(i);
+    }
+    score.score = 0;
+    timer.interval = 0;
+    timer.interval = 0;
   }
 }
 
@@ -179,20 +178,18 @@ public void mousePressed()
         startFlute.setGain(-3);
         gameScreen = 1;
       }
-    }
-    else if (quitButton.circleOver)
+    } else if (quitButton.circleOver)
     {
       exit();
     }
   }
-  
+
   if (gameScreen == 2)
   {
     if (quitGame.circleOver)
     {
       exit();
-    }
-    else if (restart.circleOver)
+    } else if (restart.circleOver)
     {
       gameScreen = 0;
     }
@@ -219,38 +216,36 @@ void checkCollision()
   for (int i = fruits.size() - 1; i >= 0; i--) {
     Fruit fruit = fruits.get(i);
 
-    if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) < fruit.fruitSize)
+    if (dist(fruit.fruitX, fruit.fruitY, playerHandX, playerHandY) < fruit.fruitSize-55)
     {
       if (fruit.isSliced == false && fruit.isActive)
       {
-        timer.interval += 500;
-        timer.interval2 += 500;
+        timer.interval += 250;
+        timer.interval2 += 250;
 
         score.addScore();
         fruit.isSliced = true;
         fruit.isActive = false;
-        fruitSlice.trigger();
-        
-        fruit.drawFruit = false;
-        
+        fruit.drawFruit = false; 
+        fruitSlice.trigger();  
       }
-    } 
+    }
     else 
     {
       fruit.isSliced = false;
     }
   }
 }
-
+  
 void drawHandCircle()
 {
   //GEBRUIK DIT ALS KINECT VOOR HAND
-  PVector v1 = tracker.getPos();
-  playerHandX = v1.x;
-  playerHandY =  v1.y;
+  //PVector v1 = tracker.getPos();
+  //playerHandX = v1.x;
+  //playerHandY =  v1.y;
 
-  //playerHandX = mouseX;
-  //playerHandY = mouseY;
+  playerHandX = mouseX;
+  playerHandY = mouseY;
   fill(255, 0, 255);
   rectMode(CENTER);
   ellipse(playerHandX, playerHandY, handSize, handSize);
