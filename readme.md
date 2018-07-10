@@ -1,8 +1,7 @@
 # Speciale Input - Output
 Team 8
 1. Joppe van Basten
-2. Joey Kossen
-3. Mees Dekker
+2. Mees Dekker
 
 ## Ontwerp
 Een soort AR Fruit Ninja, waar je je eigen handen ziet en met je handen het fruit dat door het scherm vliegt door moet proberen snijden.

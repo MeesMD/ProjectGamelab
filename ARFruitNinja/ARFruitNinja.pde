@@ -30,6 +30,7 @@ ArrayList<Fruit> fruits;
 PImage background;
 PImage apple;
 PImage logo;
+PImage gameOver
 PFont titleFont;
 int gameScreen = 0;
 float playerHandX, playerHandY;
@@ -61,6 +62,7 @@ void setup()
 
   titleFont = loadFont("KristenITC-Regular-48.vlw");
   apple = loadImage("apple.png");
+  gameOver = loadImage("gameOver.png");
   background = loadImage("background.jpeg");
   logo = loadImage("logo.png");
 } 
