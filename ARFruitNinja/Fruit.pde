@@ -6,41 +6,34 @@ class Fruit {
   float gravity = 0.1;
   float ballSpdVert = 0;
   float shootSpd = random(12, 14);
-  float xSpeed = random(1,4);
+  float xSpeed = random(1, 4);
   boolean drawFruit = true;
   boolean isSliced = false;
   boolean isActive = true;
   boolean spawnedLeft;
-  
-
 
   Fruit() 
   {
-    fruitX = random(fruitSize/2+800, width - fruitSize/2-200); // spawn x 800 - 1720
+    fruitX = random(fruitSize/2+700, width - fruitSize/2-200); // spawn x 800 - 1720
     fruitY = height + 50;
-<<<<<<< HEAD
-    
-    if (fruitX < width/2-200) 
-=======
+
     if (fruitX < 1240)
->>>>>>> origin/master
     {
       spawnedLeft = true;
     } else
     {
       spawnedLeft = false;
     }
-    
+
     shootUp();
   }
 
   void update () 
   {
-    if(spawnedLeft)
+    if (spawnedLeft)
     {
       fruitX += xSpeed;
-    }
-    else
+    } else
     {
       fruitX -= xSpeed;
     }
@@ -54,6 +47,7 @@ class Fruit {
   {
     if (drawFruit) 
     {
+      imageMode(CENTER);
       image(apple, fruitX, fruitY, fruitSize, fruitSize);
     }
   }

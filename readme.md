@@ -7,8 +7,10 @@ Team 8
 ## Ontwerp
 Een soort AR Fruit Ninja, waar je je eigen handen ziet en met je handen het fruit dat door het scherm vliegt door moet proberen snijden.
 
-## Hoe werkt het?
-Doormiddel van de Xbox 360 Kinect worden je handen getracked en zo kun je de bewegingen van je hand op het scherm zien. Er zullen fruitjes door het scherm vliegen en jij moet ze proberen door te snijden met je handen!
+## Beschrijving
+Doormiddel van de Xbox 360 Kinect worden je handen getracked en zo kun je de bewegingen van je hand op het scherm zien. Er zullen fruitjes door het scherm vliegen en jij moet ze proberen door te snijden met je handen.
+Maar pas op, hoe meer fruitjes je snijd moe sneller ze zullen spawnen.
+Als je een fruitje mist dan gaan er levens van je af dus probeer zo lang mogelijk levend te blijven!
 
 ## Hardware dat je nodig hebt voor deze game
 - Xbox 360 Kinect.
